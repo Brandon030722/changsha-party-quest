@@ -50,6 +50,16 @@ function amapMarker(place) {
   return `https://uri.amap.com/marker?${query.toString()}`;
 }
 
+function placePopup(place) {
+  return `<div class="place-popup">
+    <span class="place-popup__eyebrow">地点详情</span>
+    <h3>${escapeHtml(place.name)}</h3>
+    <p class="place-popup__subtitle">${escapeHtml(place.subtitle)}</p>
+    <p class="place-popup__address">${icon('pin')}<span>${escapeHtml(place.location)}</span></p>
+    <a class="place-popup__action" href="${escapeHtml(amapMarker(place))}" aria-label="在高德地图查看${escapeHtml(place.name)}">打开高德地图 ${icon('arrow')}</a>
+  </div>`;
+}
+
 function placeAction(place) {
   return place.status === 'verified'
     ? `<a class="nav-pill" href="${amapMarker(place)}" aria-label="在高德地图定位${escapeHtml(place.name)}">高德定位 ${icon('arrow')}</a>`
@@ -101,17 +111,17 @@ app.innerHTML = `
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-bubbles" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="hero-copy"><p class="eyebrow hero-kicker">TEAM TRIP / CHANGSHA + ZHUZHOU</p><h1 id="hero-title">长沙<span>组队出发!</span></h1><p class="hero-description">${trip.people.length} 位队友，${days.length} 段行程。从集合点到方特，点地图上的已确认地点就能打开高德地图定位。</p>
-      <div class="hero-actions"><a class="primary-button" href="#map-section">开始看地图 ${icon('arrow')}</a><a class="share-poster-link" href="./share-poster.png" target="_blank" rel="noopener noreferrer">打开微信分享海报 ${icon('arrow')}</a><span class="date-chip">${icon('clock')}<span id="hero-date">${escapeHtml(trip.dateText)}</span></span></div></div>
-      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? `${escapeHtml(pendingPlaceNames.join('、'))}的名称和地址待更新；其余地点已加入地图。` : '住宿、取物点、漫展、车站与方特均已加入地图；点图钉打开高德定位。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
+      <div class="hero-copy"><p class="eyebrow hero-kicker">TEAM TRIP / CHANGSHA + ZHUZHOU</p><h1 id="hero-title">长沙<span>组队出发!</span></h1><p class="hero-description">${trip.people.length} 位队友，${days.length} 段行程。从集合点到方特，点地图图钉先看地点，再选择打开高德地图。</p>
+      <div class="hero-actions"><a class="primary-button" href="#map-section">开始看地图 ${icon('arrow')}</a><a class="share-poster-link" href="./share-poster.png" target="_blank" rel="noopener noreferrer">打开微信分享海报 ${icon('arrow')}</a><span class="date-chip">${icon('clock')}<span id="hero-date">${escapeHtml(trip.dateText)}</span></span></div><p class="wechat-share-tip">微信内转发网页：右上角“···” → “发送给朋友”</p></div>
+      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? `${escapeHtml(pendingPlaceNames.join('、'))}的名称和地址待更新；其余地点已加入地图。` : '住宿、取物点、漫展、车站与方特均已加入地图；点图钉查看地点详情。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
     </section>
     <section class="map-section content-wrap" id="map-section" aria-labelledby="map-heading">
-      <div class="section-heading"><div><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2></div><p>点击已定位的地图标记，或使用地点卡上的导航按钮。</p></div>
+      <div class="section-heading"><div><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2></div><p>点击图钉先查看地点，再点弹窗按钮打开高德地图。</p></div>
       <div class="map-layout">
         <div class="map-frame">
           <div class="map-toolbar"><span class="map-title">${icon('compass')} 长沙 ⇄ 株洲</span><div class="map-toolbar-actions"><button class="map-online" type="button" id="toggle-online-map" aria-pressed="false">在线街道图</button><button class="map-reset" type="button" id="reset-map">查看全图</button></div></div>
           <div id="trip-map" role="region" aria-label="长沙与株洲方特交互地图，可缩放和拖动"></div>
-          <div class="map-legend"><span><i class="legend-pin"></i> 点击图钉在高德定位</span><span>本地道路底图 · 可点在线街道图</span><span id="map-status" role="status" hidden>在线街道图未载入 · 仍可使用本地地图</span></div>
+          <div class="map-legend"><span><i class="legend-pin"></i> 点击图钉查看地点</span><span>本地道路底图 · 可点在线街道图</span><span id="map-status" role="status" hidden>在线街道图未载入 · 仍可使用本地地图</span></div>
         </div>
         <aside class="place-panel" aria-labelledby="place-heading"><div class="place-panel__heading"><div><span class="eyebrow">DESTINATIONS</span><h3 id="place-heading">冒险据点</h3></div><span class="place-counter">${verifiedPlaces.length} / ${places.length} 已定位</span></div><ul class="place-list">${places.map(renderPlace).join('')}</ul><p class="place-note">图钉为地点或站区约点。D 区只标小区范围；具体出入口、漫展馆号及乘车口以当天信息为准。</p></aside>
       </div>
@@ -169,6 +179,7 @@ function focusPlace(id) {
   map.getContainer().scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
   clusterGroup.zoomToShowLayer(marker, () => {
     map.panTo([place.lat, place.lng]);
+    marker.openPopup();
     highlightPlace(id);
   });
   highlightPlace(id);
@@ -261,14 +272,23 @@ function setupMap() {
 
   verifiedPlaces.forEach((place) => {
     const marker = L.marker([place.lat, place.lng], {
-      title: `${place.name}，点击在高德地图定位`,
+      title: `${place.name}，点击查看地点详情`,
       alt: place.name,
       icon: L.divIcon({ className: 'quest-pin-wrap', html: `<span class="quest-pin quest-pin--${place.color}"><b>${places.indexOf(place) + 1}</b></span>`, iconSize: [46, 54], iconAnchor: [23, 48] }),
     });
     marker.bindTooltip(place.name, { direction: 'top', offset: [0, -40] });
+    marker.bindPopup(placePopup(place), {
+      className: 'quest-place-popup',
+      maxWidth: 250,
+      minWidth: 200,
+      autoPanPaddingTopLeft: [12, 68],
+      autoPanPaddingBottomRight: [12, 80],
+    });
     marker.on('click', () => {
       highlightPlace(place.id);
-      window.location.assign(amapMarker(place));
+    });
+    marker.on('popupclose', () => {
+      if (selectedPlace === place.id) highlightPlace(null);
     });
     markers.set(place.id, marker);
     clusterGroup.addLayer(marker);
@@ -292,6 +312,7 @@ function setupMap() {
 
 function resetMap() {
   mapUserInteracted = false;
+  map.closePopup();
   map.invalidateSize({ pan: false });
   fitTripBounds();
   highlightPlace(null);
