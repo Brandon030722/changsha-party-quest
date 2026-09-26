@@ -17,8 +17,6 @@ export const places = [
     color: 'blue',
     lat: 28.140547,
     lng: 113.024965,
-    search: '懒熊电竞酒店 长沙高铁南站雨花区政府地铁站店 香樟路768号',
-    city: '长沙',
     days: ['arrival', 'expo', 'fangte', 'return'],
   },
   {
@@ -30,8 +28,6 @@ export const places = [
     color: 'orange',
     lat: 28.22922,
     lng: 112.86946,
-    search: '保利麓谷林语D区',
-    city: '长沙',
     days: ['arrival', 'expo', 'fangte'],
   },
   {
@@ -43,8 +39,6 @@ export const places = [
     color: 'yellow',
     lat: 28.102947,
     lng: 113.017677,
-    search: '顺天宾馆 湖南省植物园店 洞井商贸城3区11号',
-    city: '长沙',
     days: ['expo'],
   },
   {
@@ -56,8 +50,6 @@ export const places = [
     color: 'orange',
     lat: 28.14654,
     lng: 113.07472,
-    search: '长沙国际会展中心 国展路118号',
-    city: '长沙',
     days: ['expo'],
   },
   {
@@ -69,8 +61,6 @@ export const places = [
     color: 'blue',
     lat: 28.15008,
     lng: 113.05988,
-    search: '长沙南站',
-    city: '长沙',
     days: ['fangte', 'return'],
   },
   {
@@ -82,8 +72,6 @@ export const places = [
     color: 'orange',
     lat: 27.79395,
     lng: 113.06284,
-    search: '株洲西站',
-    city: '株洲',
     days: ['fangte'],
   },
   {
@@ -95,8 +83,6 @@ export const places = [
     color: 'yellow',
     lat: 27.9928467,
     lng: 113.1878504,
-    search: '株洲方特欢乐世界',
-    city: '株洲',
     days: ['fangte'],
   },
 ];
@@ -233,7 +219,7 @@ export const sources = [
   ['株洲方特欢乐世界官网', 'https://zhuzhou.fangte.com/adventure/'],
   ['方特欢乐世界园区导览', 'https://zhuzhou.fangte.com/adventure/ParkMap'],
   ['方特旅游 App', 'https://apps.apple.com/cn/app/%E6%96%B9%E7%89%B9%E6%97%85%E6%B8%B8/id1089447593'],
-  ['高德地图 URI 搜索说明', 'https://developer.amap.com/api/uri-api/guide/search/search'],
+  ['高德地图 URI 坐标定位说明', 'https://developer.amap.com/api/uri-api/guide/mobile-web/point'],
   ['国务院办公厅：2026 年国庆假期', 'https://www.gov.cn/zhengce/zhengceku/202511/content_7047091.htm'],
   ['株洲方特国庆活动报道', 'https://zz.voc.com.cn/news/202609/33844264.html'],
   ['OpenStreetMap 地图与版权', 'https://www.openstreetmap.org/copyright'],

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="长沙至株洲行程示意底图">
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#b9d2d9" stroke-width="1" opacity=".48"/>
+    </pattern>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#b7cbd0" opacity=".5"/>
+    </pattern>
+  </defs>
+  <rect width="1000" height="1000" fill="#e7f1e8"/>
+  <rect width="1000" height="1000" fill="url(#grid)"/>
+  <rect width="1000" height="1000" fill="url(#dots)"/>
+  <path d="M0 81 C198 32 283 97 420 71 S779 18 1000 98 V0 H0Z" fill="#d7e9d8"/>
+  <path d="M0 620 C196 579 299 633 445 591 S803 555 1000 632 V1000 H0Z" fill="#d8e9dd" opacity=".78"/>
+  <path d="M155 0 C216 151 154 229 231 343 S317 540 302 691 S360 914 412 1000" fill="none" stroke="#b7dce7" stroke-width="28" opacity=".72"/>
+  <path d="M155 0 C216 151 154 229 231 343 S317 540 302 691 S360 914 412 1000" fill="none" stroke="#e4f4f7" stroke-width="12" opacity=".86"/>
+  <path d="M257 173 C330 194 393 255 492 299 L545 286" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" opacity=".8"/>
+  <path d="M257 173 C330 194 393 255 492 299 L545 286" fill="none" stroke="#7b9dae" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 10"/>
+  <path d="M545 286 C582 440 555 633 550 794" fill="none" stroke="#ffffff" stroke-width="19" stroke-linecap="round" opacity=".85"/>
+  <path d="M545 286 C582 440 555 633 550 794" fill="none" stroke="#345d91" stroke-width="5" stroke-linecap="round" stroke-dasharray="17 12"/>
+  <path d="M550 794 C637 729 677 604 739 510" fill="none" stroke="#ffffff" stroke-width="19" stroke-linecap="round" opacity=".85"/>
+  <path d="M550 794 C637 729 677 604 739 510" fill="none" stroke="#e69637" stroke-width="5" stroke-linecap="round" stroke-dasharray="13 10"/>
+  <circle cx="451" cy="301" r="141" fill="#ffffff" opacity=".22"/>
+  <circle cx="692" cy="746" r="132" fill="#ffffff" opacity=".23"/>
+  <g fill="#21354e" font-family="system-ui, sans-serif" font-weight="900" letter-spacing="3">
+    <text x="310" y="225" font-size="48">长沙</text>
+    <text x="311" y="251" font-size="15" letter-spacing="5">CHANGSHA</text>
+    <text x="686" y="824" font-size="44">株洲</text>
+    <text x="688" y="848" font-size="15" letter-spacing="5">ZHUZHOU</text>
+  </g>
+  <g fill="#4d6272" font-family="system-ui, sans-serif" font-size="17" font-weight="700">
+    <text x="565" y="487">高铁行程</text>
+    <text x="671" y="669">园区接驳</text>
+    <text x="36" y="964">TRIP MAP · 地理位置示意 · 点击地点图钉打开导航</text>
+  </g>
+</svg>

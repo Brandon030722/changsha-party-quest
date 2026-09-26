@@ -4,6 +4,7 @@ import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import './styles.css';
 import { trip, places, days, assessments, sources } from './data.js';
+import fallbackMapUrl from './assets/map-fallback.svg';
 
 const app = document.querySelector('#app');
 const placeById = new Map(places.map((place) => [place.id, place]));
@@ -13,6 +14,8 @@ const pendingPlaceNames = places.filter((place) => place.status !== 'verified').
 const markers = new Map();
 let map;
 let clusterGroup;
+let mapUserInteracted = false;
+let mapLayoutFrame = 0;
 let activeDay = days[0].id;
 let selectedPlace = null;
 
@@ -35,20 +38,20 @@ function escapeHtml(value) {
   })[character]);
 }
 
-function amapSearch(place) {
+function amapMarker(place) {
   const query = new URLSearchParams({
-    keyword: place.search,
-    city: place.city || '长沙',
-    view: 'map',
+    position: `${place.lng},${place.lat}`,
+    name: place.name,
+    coordinate: 'wgs84',
     src: 'changsha-party-trip',
-    callnative: '1',
+    callnative: '0',
   });
-  return `https://uri.amap.com/search?${query.toString()}`;
+  return `https://uri.amap.com/marker?${query.toString()}`;
 }
 
 function placeAction(place) {
   return place.status === 'verified'
-    ? `<a class="nav-pill" href="${amapSearch(place)}" target="_blank" rel="noopener noreferrer" aria-label="在高德地图搜索${escapeHtml(place.name)}">高德搜索 ${icon('arrow')}</a>`
+    ? `<a class="nav-pill" href="${amapMarker(place)}" aria-label="在高德地图定位${escapeHtml(place.name)}">高德定位 ${icon('arrow')}</a>`
     : '<span class="pending-action">地址待确认</span>';
 }
 
@@ -71,7 +74,7 @@ function renderPlace(place) {
 function renderStep(step) {
   const place = step.place ? placeById.get(step.place) : null;
   const placeLink = place && place.status === 'verified'
-    ? `<a href="${amapSearch(place)}" target="_blank" rel="noopener noreferrer">打开地点 ${icon('arrow')}</a>`
+    ? `<a href="${amapMarker(place)}">打开地点 ${icon('arrow')}</a>`
     : '';
   return `<li class="timeline-item">
     <time>${escapeHtml(step.time)}</time>
@@ -91,15 +94,15 @@ function renderAssessment(id) {
 app.innerHTML = `
   <header class="topbar">
     <a class="brand" href="#top" aria-label="长沙组队出发，返回顶部"><span class="brand-orbs" aria-hidden="true"><i></i><i></i><i></i></span><span>CHANGSHA<br><strong>PARTY QUEST</strong></span></a>
-    <nav class="topnav" aria-label="页面导航"><a href="#map-section">探索地图</a><a href="#itinerary">每日任务</a><a href="#travel-check">交通判断</a></nav>
+    <nav class="topnav" aria-label="页面导航"><a href="#map-section">探索地图</a><a href="#itinerary">每日任务</a><a href="#travel-check">交通判断</a><a href="./offline.html">手机离线版</a></nav>
     <span class="topbar-count">${String(trip.people.length).padStart(2, '0')} / 组队中</span>
   </header>
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-bubbles" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="hero-copy"><p class="eyebrow hero-kicker">TEAM TRIP / CHANGSHA + ZHUZHOU</p><h1 id="hero-title">长沙<span>组队出发!</span></h1><p class="hero-description">${trip.people.length} 位队友，${days.length} 段行程。从集合点到方特，点地图上的已确认地点就能打开高德地图搜索。</p>
+      <div class="hero-copy"><p class="eyebrow hero-kicker">TEAM TRIP / CHANGSHA + ZHUZHOU</p><h1 id="hero-title">长沙<span>组队出发!</span></h1><p class="hero-description">${trip.people.length} 位队友，${days.length} 段行程。从集合点到方特，点地图上的已确认地点就能打开高德地图定位。</p>
       <div class="hero-actions"><a class="primary-button" href="#map-section">开始看地图 ${icon('arrow')}</a><span class="date-chip">${icon('clock')}<span id="hero-date">${escapeHtml(trip.dateText)}</span></span></div></div>
-      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? `${escapeHtml(pendingPlaceNames.join('、'))}的名称和地址待更新；其余地点已加入地图。` : '住宿、取物点、漫展、车站与方特均已加入地图；点图钉打开高德搜索。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
+      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? `${escapeHtml(pendingPlaceNames.join('、'))}的名称和地址待更新；其余地点已加入地图。` : '住宿、取物点、漫展、车站与方特均已加入地图；点图钉打开高德定位。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
     </section>
     <section class="map-section content-wrap" id="map-section" aria-labelledby="map-heading">
       <div class="section-heading"><div><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2></div><p>点击已定位的地图标记，或使用地点卡上的导航按钮。</p></div>
@@ -107,7 +110,7 @@ app.innerHTML = `
         <div class="map-frame">
           <div class="map-toolbar"><span class="map-title">${icon('compass')} 长沙 ⇄ 株洲</span><button class="map-reset" type="button" id="reset-map">查看全图</button></div>
           <div id="trip-map" role="region" aria-label="长沙与株洲方特交互地图，可缩放和拖动"></div>
-          <div class="map-legend"><span><i class="legend-pin"></i> 点击图钉打开高德搜索</span><span>多个地点重叠时点数字圈放大</span></div>
+          <div class="map-legend"><span><i class="legend-pin"></i> 点击图钉在高德定位</span><span>多个地点重叠时点数字圈放大</span><span id="map-status" role="status" hidden>详细底图未载入 · 已显示行程示意图</span></div>
         </div>
         <aside class="place-panel" aria-labelledby="place-heading"><div class="place-panel__heading"><div><span class="eyebrow">DESTINATIONS</span><h3 id="place-heading">冒险据点</h3></div><span class="place-counter">${verifiedPlaces.length} / ${places.length} 已定位</span></div><ul class="place-list">${places.map(renderPlace).join('')}</ul><p class="place-note">图钉为地点或站区约点。D 区只标小区范围；具体出入口、漫展馆号及乘车口以当天信息为准。</p></aside>
       </div>
@@ -161,6 +164,7 @@ function focusPlace(id) {
   const place = placeById.get(id);
   if (!place || !Number.isFinite(place.lat)) return;
   const marker = markers.get(id);
+  mapUserInteracted = true;
   map.getContainer().scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
   clusterGroup.zoomToShowLayer(marker, () => {
     map.panTo([place.lat, place.lng]);
@@ -173,11 +177,33 @@ document.querySelectorAll('[data-select-place]').forEach((button) => button.addE
 
 function setupMap() {
   map = L.map('trip-map', { zoomControl: false, scrollWheelZoom: false, tap: true });
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  map.createPane('mapFallbackPane');
+  map.getPane('mapFallbackPane').style.zIndex = '150';
+  map.getPane('mapFallbackPane').style.pointerEvents = 'none';
+  L.imageOverlay(fallbackMapUrl, [[27.65, 112.70], [28.35, 113.36]], {
+    pane: 'mapFallbackPane',
+    interactive: false,
+    alt: '长沙至株洲行程示意底图',
+  }).addTo(map);
+  const tileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 6,
     maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
+  const mapStatus = document.querySelector('#map-status');
+  let loadedTiles = 0;
+  let failedTiles = 0;
+  tileLayer.on('tileload', () => {
+    loadedTiles += 1;
+    mapStatus.hidden = true;
+  });
+  tileLayer.on('tileerror', () => {
+    failedTiles += 1;
+    if (loadedTiles === 0 && failedTiles >= 2) mapStatus.hidden = false;
+  });
+  window.setTimeout(() => {
+    if (loadedTiles === 0) mapStatus.hidden = false;
+  }, 4500);
   L.control.zoom({ position: 'bottomright' }).addTo(map);
   clusterGroup = L.markerClusterGroup({
     maxClusterRadius: 54,
@@ -191,14 +217,14 @@ function setupMap() {
 
   verifiedPlaces.forEach((place) => {
     const marker = L.marker([place.lat, place.lng], {
-      title: `${place.name}，点击在高德地图搜索`,
+      title: `${place.name}，点击在高德地图定位`,
       alt: place.name,
       icon: L.divIcon({ className: 'quest-pin-wrap', html: `<span class="quest-pin quest-pin--${place.color}"><b>${places.indexOf(place) + 1}</b></span>`, iconSize: [46, 54], iconAnchor: [23, 48] }),
     });
     marker.bindTooltip(place.name, { direction: 'top', offset: [0, -40] });
     marker.on('click', () => {
       highlightPlace(place.id);
-      window.open(amapSearch(place), '_blank', 'noopener,noreferrer');
+      window.location.assign(amapMarker(place));
     });
     markers.set(place.id, marker);
     clusterGroup.addLayer(marker);
@@ -206,11 +232,43 @@ function setupMap() {
 
   resetMap();
   document.querySelector('#reset-map').addEventListener('click', resetMap);
+  const mapContainer = map.getContainer();
+  mapContainer.addEventListener('pointerdown', () => { mapUserInteracted = true; }, { passive: true });
+  mapContainer.addEventListener('touchstart', () => { mapUserInteracted = true; }, { passive: true });
+  new ResizeObserver(scheduleMapLayout).observe(mapContainer);
+  window.addEventListener('load', scheduleMapLayout);
+  window.addEventListener('pageshow', scheduleMapLayout);
+  window.addEventListener('resize', scheduleMapLayout);
+  window.visualViewport?.addEventListener('resize', scheduleMapLayout);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) scheduleMapLayout();
+  });
+  scheduleMapLayout();
 }
 
 function resetMap() {
-  map.fitBounds(verifiedPlaces.map((place) => [place.lat, place.lng]), { padding: [48, 48], maxZoom: 11 });
+  mapUserInteracted = false;
+  map.invalidateSize({ pan: false });
+  fitTripBounds();
   highlightPlace(null);
+}
+
+function fitTripBounds() {
+  const padding = map.getContainer().clientWidth < 600 ? [20, 20] : [48, 48];
+  map.fitBounds(verifiedPlaces.map((place) => [place.lat, place.lng]), { padding, maxZoom: 11, animate: false });
+}
+
+function scheduleMapLayout() {
+  if (mapLayoutFrame) cancelAnimationFrame(mapLayoutFrame);
+  mapLayoutFrame = requestAnimationFrame(() => {
+    mapLayoutFrame = requestAnimationFrame(() => {
+      mapLayoutFrame = 0;
+      const container = map.getContainer();
+      if (container.clientWidth < 100 || container.clientHeight < 100) return;
+      map.invalidateSize({ pan: false, animate: false });
+      if (!mapUserInteracted) fitTripBounds();
+    });
+  });
 }
 
 renderDay(activeDay);
