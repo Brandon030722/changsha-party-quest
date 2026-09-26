@@ -100,6 +100,10 @@ a { color: inherit; }
 .quest-pin--blue { background: var(--blue); }
 .quest-pin--orange { background: var(--orange); }
 .quest-pin-wrap:hover .quest-pin, .quest-pin-wrap.is-selected .quest-pin { scale: 1.12; }
+.quest-cluster-wrap { background: transparent; border: 0; }
+.quest-cluster { display: grid; place-items: center; width: 48px; height: 48px; border: 3px solid var(--ink); border-radius: 50%; background: var(--paper); box-shadow: 3px 4px 0 var(--ink); color: var(--ink); font-size: 1rem; font-weight: 1000; }
+.quest-cluster::after { content: '+'; position: absolute; right: -4px; top: -6px; display: grid; place-items: center; width: 19px; height: 19px; border: 2px solid var(--ink); border-radius: 50%; background: var(--yellow); font-size: .78rem; }
+.quest-cluster-wrap:hover .quest-cluster { background: var(--blue-pale); }
 .place-panel { min-width: 0; display: flex; flex-direction: column; max-height: 624px; border: 3px solid var(--ink); border-radius: 30px; background: white; padding: 22px; overflow: hidden; }
 .place-panel__heading { display: flex; justify-content: space-between; align-items: end; gap: 10px; padding: 3px 2px 18px; border-bottom: 2px dashed #bbc1c8; }
 .place-panel__heading h3 { font-size: 1.9rem; margin: 4px 0 0; line-height: 1; }
@@ -145,7 +149,7 @@ button.place-name:hover { text-decoration: underline; text-decoration-thickness:
 .timeline-item { display: grid; grid-template-columns: 92px 19px minmax(0,1fr); gap: 10px; align-items: start; position: relative; padding-bottom: 28px; }
 .timeline-item::before { content: ""; position: absolute; left: 110px; top: 17px; bottom: -1px; width: 2px; background: #a7c7e8; }
 .timeline-item:last-child::before { display: none; }
-.timeline-item time { font-size: .84rem; line-height: 1.45; font-weight: 1000; white-space: nowrap; }
+.timeline-item time { font-size: .84rem; line-height: 1.45; font-weight: 1000; overflow-wrap: anywhere; }
 .timeline-dot { width: 18px; height: 18px; margin-top: 2px; border: 3px solid var(--ink); border-radius: 50%; background: var(--yellow); z-index: 1; }
 .timeline-copy h3 { margin: 0 0 5px; font-size: 1rem; line-height: 1.35; }
 .timeline-copy p { margin: 0; max-width: 650px; color: #4b5560; font-size: .85rem; line-height: 1.65; }
