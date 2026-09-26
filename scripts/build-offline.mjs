@@ -136,6 +136,20 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#3994ff">
   <meta name="description" content="长沙五人行程单文件离线版，含七处地点示意地图、四天行程与交通判断。">
+  <link rel="canonical" href="https://brandon030722.github.io/changsha-party-quest/offline.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:title" content="长沙组队出发 · 手机离线行程">
+  <meta property="og:description" content="五位队友，四天行程。七处地点、漫展与株洲方特安排，保存后离线可读。">
+  <meta property="og:url" content="https://brandon030722.github.io/changsha-party-quest/offline.html">
+  <meta property="og:image" content="https://brandon030722.github.io/changsha-party-quest/share-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="长沙组队出发 · 手机离线行程">
+  <meta name="twitter:description" content="四天行程、七处地点、交通判断，保存后离线可读。">
+  <meta name="twitter:image" content="https://brandon030722.github.io/changsha-party-quest/share-card.png">
   <title>长沙组队出发 · 离线行程地图</title>
   <style>${css}</style>
 </head>
