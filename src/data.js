@@ -1,12 +1,12 @@
 export const trip = {
   title: '长沙组队出发',
-  dateText: '2026 · 日期核对中',
-  dateNote: '四段行程的具体日期待确认',
+  dateText: '2026.09.30 — 10.03',
+  dateNote: '9 月 30 日抵达 · 10 月 1 日漫展 · 10 月 2 日方特 · 10 月 3 日返程',
   people: ['周梓涛', '钟茗睿', '谭昭爵', '杜屹浩', '杜屹浩的同事'],
   verifiedAt: '2026-09-26',
 };
 
-// Map coordinates are WGS84 from OpenStreetMap. Never assign a precise pin to an unconfirmed venue.
+// Map coordinates use WGS84. Makeup and expo pins are approximate POI locations, not entrances.
 export const places = [
   {
     id: 'hotel',
@@ -19,20 +19,28 @@ export const places = [
   },
   {
     id: 'makeup',
-    name: '顺天宾馆（妆娘）',
-    subtitle: '集合 · 同名地点较多',
-    location: '长沙市 · 分店与地址待确认',
-    status: 'pending',
+    name: '顺天宾馆（湖南省植物园店）',
+    subtitle: '妆造集合 · 地图位置约点',
+    location: '长沙市雨花区洞井商贸城 3 区 11 号',
+    status: 'verified',
     color: 'yellow',
+    lat: 28.102947,
+    lng: 113.017677,
+    search: '顺天宾馆 湖南省植物园店 洞井商贸城3区11号',
+    city: '长沙',
     days: ['expo'],
   },
   {
     id: 'expo',
-    name: '漫展场馆',
-    subtitle: '活动 · 场馆待确认',
-    location: '长沙市 · 精确位置待确认',
-    status: 'pending',
+    name: '长沙国际会展中心',
+    subtitle: '漫展场馆 · 标记为场馆中心',
+    location: '长沙市长沙县黄兴镇国展路 118 号',
+    status: 'verified',
     color: 'orange',
+    lat: 28.14654,
+    lng: 113.07472,
+    search: '长沙国际会展中心 国展路118号',
+    city: '长沙',
     days: ['expo'],
   },
   {
@@ -55,7 +63,7 @@ export const days = [
     id: 'arrival',
     number: '01',
     name: '抵达长沙',
-    date: '日期待确认',
+    date: '09.30 / 周三',
     kicker: '集结日',
     summary: '先到的三人办理入住，等谭昭爵到齐。',
     steps: [
@@ -69,13 +77,14 @@ export const days = [
     id: 'expo',
     number: '02',
     name: '漫展日',
-    date: '日期待确认',
+    date: '10.01 / 周四',
     kicker: '妆造 + 漫展',
     summary: '先妆造，再五人会合打车去漫展。',
     steps: [
-      { time: '09:00', title: '三人到顺天宾馆化妆', detail: '周梓涛、钟茗睿、谭昭爵先到妆娘处。宾馆分店未确认。', place: 'makeup' },
+      { time: '09:00', title: '三人到顺天宾馆化妆', detail: '周梓涛、钟茗睿、谭昭爵到湖南省植物园店。三人能否在 10:00 前完成妆造，需与妆娘确认。', place: 'makeup' },
       { time: '09:30', title: '杜屹浩到场集合', detail: '第五位同事的会合时间与位置待确认。', place: 'makeup' },
-      { time: '10:00', title: '五人打车前往漫展', detail: '普通五座网约车加司机只能载四位乘客，应约可载五位乘客的车或分两辆车。', place: 'expo' },
+      { time: '10:00', title: '五人打车前往漫展', detail: '目的地为长沙国际会展中心。普通五座网约车只能载四位乘客；需约能载五位乘客的车，或分乘两车。', place: 'expo' },
+      { time: '约 10:40–11:10', title: '规划抵达展馆入口', detail: '路网顺畅基线约 11 公里 / 13 分钟；国庆日预留 25–45 分钟行车和 15–25 分钟等车、落客、步行。实际入口以漫展通知为准。', place: 'expo' },
       { time: '全天', title: '参加漫展', detail: '结束后返回酒店；杜屹浩晚上还需取车。', place: 'expo' },
     ],
     assessment: 'expo',
@@ -84,7 +93,7 @@ export const days = [
     id: 'fangte',
     number: '03',
     name: '株洲方特',
-    date: '日期待确认',
+    date: '10.02 / 周五',
     kicker: '自驾往返',
     summary: '杜屹浩接上大家，自驾去株洲方特欢乐世界。',
     steps: [
@@ -99,7 +108,7 @@ export const days = [
     id: 'return',
     number: '04',
     name: '休息返程',
-    date: '日期待确认',
+    date: '10.03 / 周六',
     kicker: '收尾日',
     summary: '上午休息，下午吃饭，傍晚返程。',
     steps: [
@@ -124,11 +133,11 @@ export const assessments = {
   expo: {
     badge: '运力提醒',
     title: '五人同行需大车或两车',
-    verdict: '妆娘地点和漫展场馆尚未确认，无法给出可靠车程。10:00 出发前应核对妆造是否完成，并约可坐五名乘客的车型。',
+    verdict: '顺天宾馆至长沙国际会展中心公开路网约 10.9 公里、13 分钟（不含拥堵）。10 月 1 日按行车 25–45 分钟，另加等车和进馆 15–25 分钟作规划；10:00 出发约 10:40–11:10 到入口。',
     rows: [
       ['普通五座车', '司机 + 4 名乘客，不够五人同行'],
       ['可行选择', '六/七座车型，或分乘两车'],
-      ['车程', '待宾馆与场馆定位后计算'],
+      ['出发前核对', '妆造结束时间、同事会合点和展会入口'],
     ],
   },
   fangte: {
@@ -153,6 +162,11 @@ export const assessments = {
 };
 
 export const sources = [
+  ['顺天宾馆（湖南省植物园店）地址', 'https://www.trip.com/hotels/changsha-hotel-detail-2155824/shuntian-hotel/'],
+  ['高德地图：长沙国际会展中心地址', 'https://www.amap.com/place/B0FFHH2XRZ'],
+  ['长沙国际会展中心 OSM 场馆范围', 'https://mapcarta.com/W798742626'],
+  ['顺天宾馆至会展中心 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.017677,28.102947;113.07472,28.14654?overview=false&steps=false'],
+  ['展馆网约车落客与入口参考', 'https://www.hnceia.com/newsinfo/7155574.html'],
   ['株洲方特欢乐世界官网', 'https://zhuzhou.fangte.com/adventure/'],
   ['高德地图 URI 搜索说明', 'https://developer.amap.com/api/uri-api/guide/search/search'],
   ['湖南省交通运输厅：CZ1 途经方特', 'https://jtt.hunan.gov.cn/xxgk/gzdt/szdt1/202110/t20211027_20891618.html'],

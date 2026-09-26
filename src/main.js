@@ -7,6 +7,7 @@ const app = document.querySelector('#app');
 const placeById = new Map(places.map((place) => [place.id, place]));
 const verifiedPlaces = places.filter((place) => place.status === 'verified' && Number.isFinite(place.lat) && Number.isFinite(place.lng));
 const pendingPlaces = places.length - verifiedPlaces.length;
+const pendingPlaceNames = places.filter((place) => place.status !== 'verified').map((place) => place.name);
 const markers = new Map();
 let map;
 let activeDay = days[0].id;
@@ -95,7 +96,7 @@ app.innerHTML = `
       <div class="hero-bubbles" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="hero-copy"><p class="eyebrow hero-kicker">TEAM TRIP / CHANGSHA + ZHUZHOU</p><h1 id="hero-title">长沙<span>组队出发!</span></h1><p class="hero-description">${trip.people.length} 位队友，${days.length} 段行程。从集合点到方特，点地图上的已确认地点就能打开高德地图搜索。</p>
       <div class="hero-actions"><a class="primary-button" href="#map-section">开始看地图 ${icon('arrow')}</a><span class="date-chip">${icon('clock')}<span id="hero-date">${escapeHtml(trip.dateText)}</span></span></div></div>
-      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? '酒店、顺天宾馆、漫展场馆仍需完整地址；株洲方特已定位。' : '全部地点已定位，可从地图或地点卡打开导航搜索。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
+      <div class="hero-ticket" aria-label="行程状态"><span class="ticket-top">TRIP STATUS <b>${String(verifiedPlaces.length).padStart(2, '0')} / ${String(places.length).padStart(2, '0')}</b></span><strong>${pendingPlaces ? '地点确认中' : '地点已就绪'}</strong><p>${pendingPlaces ? `${escapeHtml(pendingPlaceNames.join('、'))}的名称和地址待更新；其余地点已加入地图。` : '全部地点已定位，可从地图或地点卡打开导航搜索。'}</p><span class="ticket-bottom">已定位 ${verifiedPlaces.length} 处 <i></i> 待确认 ${pendingPlaces} 处</span></div>
     </section>
     <section class="map-section content-wrap" id="map-section" aria-labelledby="map-heading">
       <div class="section-heading"><div><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2></div><p>点击已定位的地图标记，或使用地点卡上的导航按钮。</p></div>
@@ -105,7 +106,7 @@ app.innerHTML = `
           <div id="trip-map" role="region" aria-label="长沙与株洲方特交互地图，可缩放和拖动"></div>
           <div class="map-legend"><span><i class="legend-pin"></i> 已确认地点</span><span><i class="legend-ring"></i> 城市参照点</span></div>
         </div>
-        <aside class="place-panel" aria-labelledby="place-heading"><div class="place-panel__heading"><div><span class="eyebrow">DESTINATIONS</span><h3 id="place-heading">冒险据点</h3></div><span class="place-counter">${verifiedPlaces.length} / ${places.length} 已定位</span></div><ul class="place-list">${places.map(renderPlace).join('')}</ul><p class="place-note">未确认的位置不会放置精确地图标记。高德入口按完整地名搜索，避免坐标系偏移。</p></aside>
+        <aside class="place-panel" aria-labelledby="place-heading"><div class="place-panel__heading"><div><span class="eyebrow">DESTINATIONS</span><h3 id="place-heading">冒险据点</h3></div><span class="place-counter">${verifiedPlaces.length} / ${places.length} 已定位</span></div><ul class="place-list">${places.map(renderPlace).join('')}</ul><p class="place-note">宾馆和会展中心的图钉是地点约点，具体入口以导航和活动通知为准。未确认地点暂不放图钉；高德按名称搜索。</p></aside>
       </div>
     </section>
     <section class="journey-section" id="itinerary" aria-labelledby="journey-heading"><div class="content-wrap">
@@ -114,7 +115,7 @@ app.innerHTML = `
       <div class="journey-grid"><article class="day-panel" id="day-panel" role="tabpanel" aria-labelledby="tab-${days[0].id}" tabindex="0"></article><aside class="travel-card" id="travel-check" aria-labelledby="travel-heading"><div id="assessment-content"></div><a class="source-shortcut" href="#sources">查看估算依据 ${icon('arrow')}</a></aside></div>
     </div></section>
     <section class="closing-section content-wrap" aria-labelledby="closing-heading"><div class="closing-art" aria-hidden="true"><span class="orb-a"></span><span class="orb-b"></span><span class="orb-c"></span></div><div><span class="eyebrow">READY WHEN YOU ARE</span><h2 id="closing-heading">下一站，<br>一起出发！</h2><p>出发当天重新查看导航路况、漫展入场安排和方特营业公告。返程票确定后，再倒推最后一天的离店时间。</p><a class="primary-button" href="https://uri.amap.com/search?keyword=%E9%95%BF%E6%B2%99%E7%BE%8E%E9%A3%9F&city=%E9%95%BF%E6%B2%99&view=map&src=changsha-party-trip&callnative=1" target="_blank" rel="noopener noreferrer">搜索长沙美食 ${icon('arrow')}</a></div></section>
-    <section class="sources-section content-wrap" id="sources" aria-labelledby="sources-heading"><details><summary><span id="sources-heading">资料与估算说明</span><span>更新于 ${trip.verifiedAt} · 点击展开</span></summary><div class="sources-content"><p>方特车程为公开路网模型的非实时结果；国庆预留时间是规划缓冲，不代表当日实时路况。地点信息以场馆、酒店和导航软件当天显示为准。</p><ul>${sources.map(([label, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ${icon('arrow')}</a></li>`).join('')}</ul></div></details></section>
+    <section class="sources-section content-wrap" id="sources" aria-labelledby="sources-heading"><details><summary><span id="sources-heading">资料与估算说明</span><span>更新于 ${trip.verifiedAt} · 点击展开</span></summary><div class="sources-content"><p>漫展与方特车程来自公开路网模型，不含实时车流；国庆预留时间仅是规划缓冲。地图图钉为地点约点，具体入口以活动通知和当日导航为准。</p><ul>${sources.map(([label, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ${icon('arrow')}</a></li>`).join('')}</ul></div></details></section>
   </main>
   <footer class="footer"><div class="content-wrap"><span>CHANGSHA PARTY QUEST</span><span>原创行程页面 · 地图 © OpenStreetMap contributors</span></div></footer>
 `;
