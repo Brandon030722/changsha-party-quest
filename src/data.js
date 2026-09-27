@@ -2,21 +2,21 @@ export const trip = {
   title: '长沙组队出发',
   dateText: '2026.09.30 — 10.03',
   dateNote: '9 月 30 日抵达 · 10 月 1 日漫展 · 10 月 2 日方特 · 10 月 3 日返程',
-  people: ['周梓涛', '钟茗睿', '谭昭爵', '杜屹浩', '杜屹浩的同事'],
-  verifiedAt: '2026-09-26',
+  people: ['周梓涛', '钟茗睿', '谭昭爵', '杜屹浩', '杜屹浩的朋友'],
+  verifiedAt: '2026-09-27',
 };
 
 // Map coordinates use WGS84. All pins are venue or station approximations, not exact entrances.
 export const places = [
   {
     id: 'hotel',
-    name: '懒熊电竞酒店',
-    subtitle: '住宿 · 长沙高铁南站雨花区政府地铁站店',
-    location: '长沙市雨花区香樟路 768 号高峰雅园 1 栋 1 楼',
+    name: '网鱼电竞酒店（长沙汇金天虹店）',
+    subtitle: '住宿 · 汽车南站商圈汇金天虹附近',
+    location: '长沙市雨花区鄱阳汇金商业中心 D 栋 9 层 912 房',
     status: 'verified',
     color: 'blue',
-    lat: 28.140547,
-    lng: 113.024965,
+    lat: 28.090406,
+    lng: 113.006829,
     days: ['arrival', 'expo', 'fangte', 'return'],
   },
   {
@@ -96,11 +96,11 @@ export const days = [
     kicker: '集结日',
     summary: '先入住，再去 D 区取衣物与道具，回酒店等谭昭爵。',
     steps: [
-      { time: '抵达后', title: '三人先到懒熊电竞酒店', detail: '周梓涛、钟茗睿、杜屹浩先办理入住；携带身份证，具体到站接驳按各人车票再定。', place: 'hotel' },
-      { time: '入住后', title: '去 D 区取衣物与道具', detail: '酒店至保利麓谷林语 D 区公开路网约 25 公里；带道具往返建议打车，节前出行单程先按 40–70 分钟排。地图只标小区范围。', place: 'home' },
-      { time: '取完后', title: '返回酒店放好装备', detail: '往返车程与取物时间合计约留 1 小时 40 分至 3 小时，再安排后续活动。', place: 'hotel' },
+      { time: '抵达后', title: '三人先到网鱼电竞酒店', detail: '周梓涛、钟茗睿、杜屹浩携身份证办理入住；酒店平台标注 15:00 后入住，若更早抵达先咨询寄存行李。到站接驳按各人车票再定。', place: 'hotel' },
+      { time: '入住后', title: '去 D 区取衣物与道具', detail: '酒店至保利麓谷林语 D 区路网约 25.9 公里；带道具往返建议打车，节前出行单程先按 45–75 分钟排。地图只标小区范围。', place: 'home' },
+      { time: '取完后', title: '返回酒店放好装备', detail: '来回约 53 公里，连取物时间整趟建议留约 2–3 小时，再安排后续活动。', place: 'hotel' },
       { time: '稍后', title: '谭昭爵抵达并入住', detail: '抵达方式与到站地点未提供，接驳时间暂时无法计算。', place: 'hotel' },
-      { time: '晚上', title: '游戏或彩六五排', detail: '杜屹浩回 D 区找同事；大家按体力安排游戏。', place: 'home' },
+      { time: '晚上', title: '游戏或彩六五排', detail: '杜屹浩回 D 区找朋友；大家按体力安排游戏。', place: 'home' },
     ],
     assessment: 'arrival',
   },
@@ -112,13 +112,13 @@ export const days = [
     kicker: '妆造 + 漫展',
     summary: '酒店三人先妆造，五人会合后前往长沙国际会展中心。',
     steps: [
-      { time: '约 08:15', title: '酒店三人出发去妆造点', detail: '酒店至顺天宾馆约 6.4 公里；路网顺畅基线 7 分钟，假期打车连等车建议留 20–35 分钟。', place: 'hotel' },
+      { time: '约 08:20', title: '酒店三人出发去妆造点', detail: '酒店至顺天宾馆约 2.7 公里；路网顺畅基线约 4 分钟，假期打车连等车建议留 25–40 分钟。', place: 'hotel' },
       { time: '09:00', title: '三人到顺天宾馆化妆', detail: '周梓涛、钟茗睿、谭昭爵到湖南省植物园店。三人能否在 10:00 前完成妆造，需与妆娘确认。', place: 'makeup' },
-      { time: '09:30', title: '杜屹浩到场集合', detail: '从 D 区至顺天宾馆公开路网约 26 公里；建议按 08:10 左右出发规划。第五位同事需在 10:00 前到顺天宾馆会合。', place: 'makeup' },
+      { time: '09:30', title: '杜屹浩到场集合', detail: '从 D 区至顺天宾馆公开路网约 26 公里；建议按 08:10 左右出发规划。杜屹浩的朋友需在 10:00 前到顺天宾馆会合。', place: 'makeup' },
       { time: '10:00', title: '五人打车前往漫展', detail: '目的地为长沙国际会展中心。普通五座网约车只能载四位乘客；需约能载五位乘客的车，或分乘两车。', place: 'expo' },
       { time: '约 10:40–11:10', title: '规划抵达展馆入口', detail: '路网顺畅基线约 11 公里 / 13 分钟；国庆日预留 25–45 分钟行车和 15–25 分钟等车、落客、步行。实际入口以漫展通知为准。', place: 'expo' },
       { time: '白天', title: '全天参加漫展', detail: '以主办方当天公布的入场、节目与闭馆时间为准，安排午餐和休息。', place: 'expo' },
-      { time: '结束后', title: '分头返程休息', detail: '酒店三人返回懒熊打游戏，杜屹浩回 D 区；同事按约定返程。', place: 'hotel' },
+      { time: '结束后', title: '分头返程休息', detail: '酒店三人返回网鱼电竞酒店打游戏，杜屹浩回 D 区；朋友按约定返程。', place: 'hotel' },
     ],
     assessment: 'expo',
   },
@@ -130,15 +130,15 @@ export const days = [
     kicker: '高铁 + 接驳',
     summary: '五人在长沙南站会合，同乘高铁到株洲西，再坐车去欢乐世界。',
     steps: [
-      { time: '约 07:00', title: '酒店三人集合', detail: '周梓涛、钟茗睿、谭昭爵在懒熊集合，约 07:15 打车去长沙南。杜屹浩从 D 区提前去车站，并与同事确认会合方式。', place: 'hotel' },
-      { time: '约 07:45', title: '五人在长沙南站会合', detail: '酒店到站约 5.7 公里，公开路网顺畅基线 6 分钟；国庆仍要预留打车、安检和检票时间。杜屹浩从 D 区自行倒推，建议 06:15–06:30 出门。', place: 'changsha_south' },
+      { time: '约 06:45', title: '酒店三人集合', detail: '周梓涛、钟茗睿、谭昭爵在网鱼电竞酒店集合，约 07:00 打车去长沙南。杜屹浩从 D 区提前去车站，并与朋友确认会合方式。', place: 'hotel' },
+      { time: '约 07:40–07:50', title: '五人在长沙南站会合', detail: '酒店到站约 11.7 公里，路网顺畅基线约 11 分钟；国庆打车按 25–45 分钟规划，另留安检检票时间。杜屹浩从 D 区建议 06:00–06:15 出门。', place: 'changsha_south' },
       { time: '约 08:30', title: '高铁前往株洲西', detail: '10 月 2 日参考车次有 08:25→08:39、08:29→08:44、08:34→08:48。五人同车，具体车次和余票以 12306 为准。', place: 'zhuzhou_west' },
       { time: '约 09:45–10:45', title: '接驳并进入欢乐世界', detail: '株洲西至方特约 30.5 公里；国庆规划打车 40–70 分钟，出站叫车及入园再留约 15–30 分钟。五名乘客需六/七座车或两辆普通车。', place: 'fangte' },
       { time: '进园后', title: '先攻核心项目', detail: '先看方特旅游 App 的项目开放与排队，优先《飞越极限》《恐龙危机》；排队较长时先完成一项，另一项放到下午。喜欢刺激且开放时可将《火流星》提前。', place: 'fangte' },
       { time: '12:30 前后', title: '园内吃饭休息', detail: '避开最拥挤的用餐时段可灵活提前或推后，不要为了赶项目跳过休息。', place: 'fangte' },
       { time: '下午', title: '再挑 2–3 个项目', detail: '在《火流星》《维苏威火山》《海螺湾》中看排队择优；《逃出恐龙岛》仅在项目开放且愿意湿身时加入。', place: 'fangte' },
       { time: '约 17:30–17:45', title: '按返程车次决定离园', detail: '若订约 20:00 的株洲西→长沙南高铁，建议此时开始出园打车；只有当天路况和叫车顺利时再延到 18:00。想看夜间巡游或晚会需确认更晚车次。', place: 'zhuzhou_west' },
-      { time: '晚上', title: '高铁返回长沙南', detail: '参考有 20:01→20:18 的班次；以 12306 购票为准。到长沙南后回懒熊电竞酒店休息。', place: 'changsha_south' },
+      { time: '晚上', title: '高铁返回长沙南', detail: '参考有 20:01→20:18 的班次；以 12306 购票为准。到长沙南后回网鱼电竞酒店休息。', place: 'changsha_south' },
     ],
     assessment: 'fangte',
   },
@@ -150,9 +150,9 @@ export const days = [
     kicker: '收尾日',
     summary: '上午休息，下午吃饭，傍晚返程。',
     steps: [
-      { time: '上午', title: '酒店休息', detail: '留出退房和整理行李时间，具体退房规则以酒店预订为准。', place: 'hotel' },
+      { time: '上午', title: '酒店休息', detail: '酒店平台标注 12:00 前退房；可先整理行李、询问寄存，具体仍以预订单和酒店确认为准。', place: 'hotel' },
       { time: '下午', title: '找地方吃饭休息', detail: '可以在酒店周边或长沙南站附近用餐；餐厅确定后再核算到站时间。' },
-      { time: '傍晚', title: '从长沙南站返程', detail: '酒店至长沙南约 5.7 公里；出发当天按车票时刻倒推，打车、进站与安检合计建议至少预留 75–90 分钟。', place: 'changsha_south' },
+      { time: '傍晚', title: '从长沙南站返程', detail: '酒店至长沙南约 11.7 公里；出发当天按车票时刻倒推，从酒店打车、进站与安检合计建议至少预留 90–110 分钟。从餐厅出发需另算。', place: 'changsha_south' },
     ],
     assessment: 'return',
   },
@@ -160,11 +160,11 @@ export const days = [
 
 export const assessments = {
   arrival: {
-    badge: '跨城取物',
+    badge: '市内取物',
     title: '酒店往返 D 区请留足时间',
-    verdict: '酒店至 D 区公开路网约 25.3 公里、23 分钟（不含拥堵）。携带衣物和道具打车较方便；节前出行单程留 40–70 分钟，加 20–40 分钟取物，整趟约留 1 小时 40 分至 3 小时。',
+    verdict: '酒店至 D 区公开路网约 25.9 公里、23 分钟，回程约 27.1 公里、24 分钟（不含拥堵）。携带衣物和道具打车较方便；节前出行单程留 45–75 分钟，加 20–40 分钟取物，整趟约留 2–3 小时。',
     rows: [
-      ['入住', '懒熊电竞酒店，香樟路 768 号'],
+      ['入住', '网鱼电竞酒店，鄱阳汇金商业中心 D 栋'],
       ['往返', '酒店 ⇄ 保利麓谷林语 D 区'],
       ['待补', '四人实际抵达站点与到达时刻'],
     ],
@@ -172,11 +172,11 @@ export const assessments = {
   expo: {
     badge: '运力提醒',
     title: '五人同行需大车或两车',
-    verdict: '酒店至顺天宾馆约 6.4 公里、7 分钟，D 区至顺天约 26.4 公里、24 分钟；均为无拥堵路网基线。顺天至会展中心约 10.9 公里、13 分钟，国庆规划 10:00 出发、10:40–11:10 到入口。',
+    verdict: '酒店至顺天宾馆约 2.7 公里、4 分钟，D 区至顺天约 26.4 公里、24 分钟；均为无拥堵路网基线。顺天至会展中心约 10.9 公里、13 分钟，国庆规划 10:00 出发、10:40–11:10 到入口。',
     rows: [
-      ['酒店三人', '约 08:15 出发，09:00 到妆造点'],
+      ['酒店三人', '约 08:20 出发，09:00 到妆造点'],
       ['杜屹浩', '约 08:10 从 D 区出门，09:30 到场'],
-      ['第五位同事', '10:00 前到顺天宾馆会合'],
+      ['杜屹浩的朋友', '10:00 前到顺天宾馆会合'],
       ['普通五座车', '司机 + 4 名乘客，不够五人同行'],
       ['可行选择', '六/七座车型，或分乘两车'],
     ],
@@ -184,18 +184,18 @@ export const assessments = {
   fangte: {
     badge: '换乘较多',
     title: '高铁约 14 分钟，站后仍有 30 公里接驳',
-    verdict: '长沙南至株洲西高铁很短，但株洲西至方特仍有约 30.5 公里公路。酒店直接至方特的路网基线约 30.7 公里；高铁方案可行，却要增加两端接驳、安检与叫车，整体未必比直达包车省时。',
+    verdict: '长沙南至株洲西高铁很短，但株洲西至方特仍有约 30.5 公里公路。酒店直接至方特的路网基线约 26.9 公里；高铁方案可行，却要增加两端接驳、安检与叫车，整体未必比直达包车省时。',
     rows: [
-      ['参考去程', '约 07:00 酒店集合；08:25–08:34 高铁；约 09:45–10:45 入园'],
+      ['参考去程', '约 06:45 酒店集合；08:25–08:34 高铁；约 09:45–10:45 入园'],
       ['株洲西接驳', '五名乘客需六/七座车或两辆普通车'],
       ['参考返程', '约 20:00 的高铁，建议 17:30–17:45 离园'],
-      ['备选直达', '酒店至方特约 30.7 公里路网，省去两站换乘'],
+      ['备选直达', '酒店至方特约 26.9 公里路网，省去两站换乘'],
     ],
   },
   return: {
     badge: '车站已定',
     title: '长沙南返程，车票时间仍需确认',
-    verdict: '酒店到长沙南站约 5.7 公里、6 分钟是无拥堵路网基线。傍晚返程宜为打车、落客、安检与检票合计预留至少 75–90 分钟；若从餐厅出发，需按餐厅位置重算。',
+    verdict: '酒店到长沙南站约 11.7 公里、11 分钟是无拥堵路网基线。傍晚返程宜为打车、落客、安检与检票合计预留至少 90–110 分钟；若从餐厅出发，需按餐厅位置重算。',
     rows: [
       ['已知', '上午休息、下午吃饭、长沙南返程'],
       ['待补', '返程车次、餐厅与实际离店时间'],
@@ -204,7 +204,7 @@ export const assessments = {
 };
 
 export const sources = [
-  ['携程：懒熊电竞酒店地址', 'https://hotels.ctrip.com/hotels/112772110.html'],
+  ['携程：网鱼电竞酒店地址与入住规则', 'https://hotels.corporatetravel.ctrip.com/hotels/122192010.html'],
   ['OSM：保利麓谷林语 D 区约点', 'https://mapcarta.com/W756910450'],
   ['顺天宾馆（湖南省植物园店）地址', 'https://www.trip.com/hotels/changsha-hotel-detail-2155824/shuntian-hotel/'],
   ['高德地图：长沙国际会展中心地址', 'https://www.amap.com/place/B0FFHH2XRZ'],
@@ -214,7 +214,10 @@ export const sources = [
   ['10 月 2 日参考返程车次', 'https://train.qunar.com/train/tickets/zhuzhou-to-changsha/2026-10-02'],
   ['12306 官网购票与车次核对', 'https://www.12306.cn/'],
   ['顺天宾馆至会展中心 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.017677,28.102947;113.07472,28.14654?overview=false&steps=false'],
-  ['酒店至 D 区 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.024965,28.140547;112.86946,28.22922?overview=false&steps=false'],
+  ['酒店至 D 区 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.006829,28.090406;112.86946,28.22922?overview=false&steps=false'],
+  ['酒店至顺天宾馆 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.006829,28.090406;113.017677,28.102947?overview=false&steps=false'],
+  ['酒店至长沙南站 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.006829,28.090406;113.05988,28.15008?overview=false&steps=false'],
+  ['酒店至方特 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.006829,28.090406;113.1878504,27.9928467?overview=false&steps=false'],
   ['株洲西至方特 OSRM 路线模型', 'https://router.project-osrm.org/route/v1/driving/113.06284,27.79395;113.1878504,27.9928467?overview=false&steps=false'],
   ['株洲方特欢乐世界官网', 'https://zhuzhou.fangte.com/adventure/'],
   ['方特欢乐世界园区导览', 'https://zhuzhou.fangte.com/adventure/ParkMap'],

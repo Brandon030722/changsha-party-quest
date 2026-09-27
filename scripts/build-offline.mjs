@@ -36,9 +36,9 @@ function safeSourceUrl(value) {
 // Expanded city geometry preserves the relative directions of all seven real places.
 // Exact road shapes and station entrances are deliberately not implied by this diagram.
 const mapPositions = {
-  hotel: { x: 179, y: 183, label: '酒店', lx: 179, ly: 153, anchor: 'middle' },
+  hotel: { x: 145, y: 304, label: '酒店', lx: 145, ly: 339, anchor: 'middle' },
   home: { x: 58, y: 93, label: '取道具', lx: 93, ly: 99, anchor: 'start' },
-  makeup: { x: 171, y: 267, label: '妆造', lx: 205, ly: 273, anchor: 'start' },
+  makeup: { x: 205, y: 255, label: '妆造', lx: 205, ly: 225, anchor: 'middle' },
   expo: { x: 304, y: 119, label: '漫展', lx: 303, ly: 83, anchor: 'middle' },
   changsha_south: { x: 284, y: 201, label: '长沙南', lx: 283, ly: 241, anchor: 'middle' },
   zhuzhou_west: { x: 116, y: 437, label: '株洲西', lx: 116, ly: 476, anchor: 'middle' },
@@ -52,8 +52,8 @@ for (const place of places) {
 function mapPin(place, index) {
   const point = mapPositions[place.id];
   const number = String(index + 1).padStart(2, '0');
-  return `<a class="map-pin map-pin--${escapeHtml(place.color)}" href="${amapMarker(place)}" aria-label="在高德地图定位${escapeHtml(place.name)}">
-      <title>${escapeHtml(place.name)} · 点按打开高德定位</title>
+  return `<a class="map-pin map-pin--${escapeHtml(place.color)}" href="#place-${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}地点卡">
+      <title>${escapeHtml(place.name)} · 点按查看地点详情</title>
       <circle class="pin-hit" cx="${point.x}" cy="${point.y}" r="26" />
       <circle class="pin-shadow" cx="${point.x + 3}" cy="${point.y + 4}" r="17" />
       <circle class="pin-dot" cx="${point.x}" cy="${point.y}" r="17" />
@@ -64,7 +64,7 @@ function mapPin(place, index) {
 
 const map = `<svg class="route-map" viewBox="0 0 360 520" role="img" aria-labelledby="map-title map-desc" xmlns="http://www.w3.org/2000/svg">
   <title id="map-title">长沙至株洲七处地点示意地图</title>
-  <desc id="map-desc">北在上方。保利麓谷林语 D 区位于长沙西北，酒店与妆造点位于长沙东南，会展中心和长沙南站在酒店东侧。株洲方特位于株洲西站东北。点按编号可在高德地图定位。</desc>
+  <desc id="map-desc">北在上方。保利麓谷林语 D 区位于长沙西北；网鱼电竞酒店位于妆造点西南，长沙南站也在酒店东北。株洲方特位于株洲西站东北。点按编号可查看地点详情，再打开高德定位。</desc>
   <defs>
     <pattern id="map-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bed3e4"/></pattern>
   </defs>
@@ -75,9 +75,9 @@ const map = `<svg class="route-map" viewBox="0 0 360 520" role="img" aria-labell
   <path d="M82 0 C114 93 92 142 116 221 S149 332 115 520" fill="none" stroke="#c4e1ec" stroke-width="24" opacity=".9"/>
   <path d="M82 0 C114 93 92 142 116 221 S149 332 115 520" fill="none" stroke="#eff9fb" stroke-width="9" opacity=".9"/>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path class="route-halo" d="M58 93 Q115 125 179 183 Q168 225 171 267 Q241 211 304 119 M179 183 L284 201 Q235 316 116 437 Q206 396 270 373"/>
-    <path class="route-local" d="M58 93 Q115 125 179 183 Q168 225 171 267 Q241 211 304 119"/>
-    <path class="route-rail" d="M179 183 L284 201 Q235 316 116 437"/>
+    <path class="route-halo" d="M58 93 Q97 211 145 304 Q174 277 205 255 Q259 186 304 119 M145 304 Q229 264 284 201 Q235 316 116 437 Q206 396 270 373"/>
+    <path class="route-local" d="M58 93 Q97 211 145 304 Q174 277 205 255 Q259 186 304 119 M145 304 Q229 264 284 201"/>
+    <path class="route-rail" d="M284 201 Q235 316 116 437"/>
     <path class="route-transfer" d="M116 437 Q206 396 270 373"/>
   </g>
   <text x="19" y="47" class="city-label">长沙</text>
@@ -90,7 +90,7 @@ const map = `<svg class="route-map" viewBox="0 0 360 520" role="img" aria-labell
 </svg>`;
 
 function placeCard(place, index) {
-  return `<li class="place-card">
+  return `<li class="place-card" id="place-${escapeHtml(place.id)}">
     <span class="place-index place-index--${escapeHtml(place.color)}">${String(index + 1).padStart(2, '0')}</span>
     <div class="place-copy"><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(place.subtitle)}</p><address>${escapeHtml(place.location)}</address></div>
     <a class="nav-button" href="${amapMarker(place)}" aria-label="在高德地图定位${escapeHtml(place.name)}">高德定位 <span aria-hidden="true">↗</span></a>
@@ -157,8 +157,8 @@ const html = `<!doctype html>
   <a class="skip-link" href="#main">跳到行程内容</a>
   <header class="site-head"><div class="site-head-inner"><a class="brand" href="#main">CHANGSHA<strong>PARTY QUEST</strong></a><nav class="head-nav" aria-label="页面导航"><a href="#map">地图</a><a href="#places">地点</a><a href="#journey">行程</a></nav></div></header>
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title"><span class="eyebrow hero-kicker">TEAM TRIP / OFFLINE EDITION</span><h1 id="hero-title">长沙组队出发!</h1><p class="hero-description">五位队友，四天行程。地点和时间已保存在本文件；点地图编号或地点卡可打开高德定位。</p><div class="hero-meta"><span>${escapeHtml(trip.dateText)}</span><span>7 / 7 地点</span><span class="offline">离线可读</span></div></section>
-    <section class="map-section" id="map" aria-labelledby="map-heading"><div class="section-heading"><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2><p>地图采用方位示意，编号对应下方地点卡；直接点图钉可定位。</p></div><div class="map-panel"><div class="map-topline"><span>长沙 ⇄ 株洲</span><small>七处地点 · 可点击</small></div>${map}<div class="map-legend"><span><i class="key-line"></i> 高铁</span><span><i class="key-line orange"></i> 市内 / 接驳</span><span>点数字打开高德定位</span></div></div><p class="offline-note">本页的文字和示意地图离线可看。打开高德定位、查看实时路况及购买车票时，需要联网。地图只标 D 区范围；具体入口、站台和路况以当天信息为准。</p></section>
+    <section class="hero" aria-labelledby="hero-title"><span class="eyebrow hero-kicker">TEAM TRIP / OFFLINE EDITION</span><h1 id="hero-title">长沙组队出发!</h1><p class="hero-description">五位队友，四天行程。地点和时间已保存在本文件；点地图编号先看地点卡，再选高德定位。</p><div class="hero-meta"><span>${escapeHtml(trip.dateText)}</span><span>7 / 7 地点</span><span class="offline">离线可读</span></div></section>
+    <section class="map-section" id="map" aria-labelledby="map-heading"><div class="section-heading"><span class="eyebrow">01 / EXPLORE</span><h2 id="map-heading">地图先行，<em>地点一目了然</em></h2><p>地图采用方位示意；点编号先看地点卡，再选择高德定位。</p></div><div class="map-panel"><div class="map-topline"><span>长沙 ⇄ 株洲</span><small>七处地点 · 可点击</small></div>${map}<div class="map-legend"><span><i class="key-line"></i> 高铁</span><span><i class="key-line orange"></i> 市内 / 接驳</span><span>点编号先看地点卡</span></div></div><p class="offline-note">本页的文字和示意地图离线可看。打开高德定位、查看实时路况及购买车票时，需要联网。地图只标 D 区范围；具体入口、站台和路况以当天信息为准。</p></section>
     <section class="places-section" id="places" aria-labelledby="places-heading"><div class="section-heading"><span class="eyebrow">02 / DESTINATIONS</span><h2 id="places-heading">冒险据点</h2><p>定位按钮为大面积点击目标；如果微信拦截外部链接，可复制地点卡中的完整地址到高德地图。</p></div><ol class="place-list">${places.map(placeCard).join('')}</ol></section>
     <section class="journey-section" id="journey" aria-labelledby="journey-heading"><div class="section-heading"><span class="eyebrow">03 / THE PLAN</span><h2 id="journey-heading">每日任务，<em>按节奏来</em></h2><p>${escapeHtml(trip.dateNote)}</p></div><nav class="day-jumps" aria-label="跳转到某天">${days.map((day) => `<a href="#day-${escapeHtml(day.id)}">${escapeHtml(day.date)} ${escapeHtml(day.name)}</a>`).join('')}</nav>${days.map(daySection).join('')}</section>
     <details class="sources" id="sources"><summary><span>资料与估算说明</span><span>核查 ${escapeHtml(trip.verifiedAt)} · 展开</span></summary><p>公路时间为非实时路网基线，假期缓冲为规划估算。10 月 2 日高铁时刻仅供参考，最终以 12306 购票为准。示意地图不承担道路导航。</p><ul>${sources.map(([label, url]) => `<li><a href="${safeSourceUrl(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ↗</a></li>`).join('')}</ul></details>
