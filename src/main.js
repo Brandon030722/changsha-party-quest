@@ -102,10 +102,23 @@ function renderAssessment(id) {
     <dl class="assessment-rows">${assessment.rows.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
 }
 
+function renderTicket(ticket) {
+  return `<section class="arrival-ticket" aria-label="${escapeHtml(ticket.label)}车票">
+    <div class="arrival-ticket__head"><span>${escapeHtml(ticket.label)}</span><strong>${escapeHtml(ticket.status)}</strong></div>
+    <div class="arrival-ticket__route">
+      <div class="arrival-ticket__stop"><strong>${escapeHtml(ticket.depart)}</strong><span>${escapeHtml(ticket.from)}</span></div>
+      <div class="arrival-ticket__service"><strong>${escapeHtml(ticket.service)}</strong><span>09.30 / 周三</span></div>
+      <div class="arrival-ticket__stop arrival-ticket__stop--end"><strong>${escapeHtml(ticket.arrive)}</strong><span>${escapeHtml(ticket.to)}</span></div>
+    </div>
+    <ul class="arrival-ticket__people">${ticket.passengers.map((person) => `<li><span>${escapeHtml(person.name)}</span>${person.seat ? `<strong>${escapeHtml(person.seat)}</strong>` : ''}</li>`).join('')}</ul>
+    <p>${escapeHtml(ticket.note)}</p>
+  </section>`;
+}
+
 app.innerHTML = `
   <header class="topbar">
     <a class="brand" href="#top" aria-label="长沙组队出发，返回顶部"><span class="brand-orbs" aria-hidden="true"><i></i><i></i><i></i></span><span>CHANGSHA<br><strong>PARTY QUEST</strong></span></a>
-    <nav class="topnav" aria-label="页面导航"><a href="#map-section">探索地图</a><a href="#itinerary">每日任务</a><a href="#travel-check">交通判断</a><a href="./offline.html">手机离线版</a></nav>
+    <nav class="topnav" aria-label="页面导航"><a href="#map-section">探索地图</a><a href="#arrival-tickets" data-open-arrival-tickets>已出票车票</a><a href="#itinerary">每日任务</a><a href="./offline.html">手机离线版</a></nav>
     <span class="topbar-count">${String(trip.people.length).padStart(2, '0')} / 组队中</span>
   </header>
   <main id="main">
@@ -132,7 +145,7 @@ app.innerHTML = `
       <div class="journey-grid"><article class="day-panel" id="day-panel" role="tabpanel" aria-labelledby="tab-${days[0].id}" tabindex="0"></article><aside class="travel-card" id="travel-check" aria-labelledby="travel-heading"><div id="assessment-content"></div><a class="source-shortcut" href="#sources">查看估算依据 ${icon('arrow')}</a></aside></div>
     </div></section>
     <section class="closing-section content-wrap" aria-labelledby="closing-heading"><div class="closing-art" aria-hidden="true"><span class="orb-a"></span><span class="orb-b"></span><span class="orb-c"></span></div><div><span class="eyebrow">READY WHEN YOU ARE</span><h2 id="closing-heading">下一站，<br>一起出发！</h2><p>出发当天重新查看导航路况、漫展入场安排和方特营业公告。返程票确定后，再倒推最后一天的离店时间。</p><a class="primary-button" href="https://uri.amap.com/search?keyword=%E9%95%BF%E6%B2%99%E7%BE%8E%E9%A3%9F&city=%E9%95%BF%E6%B2%99&view=map&src=changsha-party-trip&callnative=0">搜索长沙美食 ${icon('arrow')}</a></div></section>
-    <section class="sources-section content-wrap" id="sources" aria-labelledby="sources-heading"><details><summary><span id="sources-heading">资料与估算说明</span><span>更新于 ${trip.verifiedAt} · 点击展开</span></summary><div class="sources-content"><p>公路距离和时间来自非实时路网模型；节前和国庆时间区间是排程缓冲。高铁班次来自 10 月 2 日参考时刻，最终以 12306 购票结果为准。图钉为地点约点，入口以当天导航和活动通知为准。</p><ul>${sources.map(([label, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ${icon('arrow')}</a></li>`).join('')}</ul></div></details></section>
+    <section class="sources-section content-wrap" id="sources" aria-labelledby="sources-heading"><details><summary><span id="sources-heading">资料与估算说明</span><span>更新于 ${trip.verifiedAt} · 点击展开</span></summary><div class="sources-content"><p>9 月 30 日去程车票由行程成员确认已支付出票；10 月 2 日车次仍是参考时刻，以实际购票为准。公路时间来自非实时路网模型，节前和国庆时间区间是排程缓冲。图钉为地点约点，入口以当天导航和活动通知为准。</p><ul>${sources.map(([label, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ${icon('arrow')}</a></li>`).join('')}</ul></div></details></section>
   </main>
   <footer class="footer"><div class="content-wrap"><span>CHANGSHA PARTY QUEST</span><span>原创行程页面 · 地图 © OpenStreetMap contributors</span></div></footer>
 `;
@@ -148,7 +161,7 @@ function renderDay(id) {
   });
   const panel = document.querySelector('#day-panel');
   panel.setAttribute('aria-labelledby', `tab-${id}`);
-  panel.innerHTML = `<div class="day-panel__intro"><span class="day-panel__kicker">MISSION ${day.number} / ${escapeHtml(day.kicker)}</span><h3>${escapeHtml(day.name)}</h3><p>${escapeHtml(day.summary)}</p></div><ol class="timeline">${day.steps.map(renderStep).join('')}</ol>`;
+  panel.innerHTML = `<div class="day-panel__intro"><span class="day-panel__kicker">MISSION ${day.number} / ${escapeHtml(day.kicker)}</span><h3>${escapeHtml(day.name)}</h3><p>${escapeHtml(day.summary)}</p></div>${day.tickets ? `<div class="arrival-tickets" id="arrival-tickets" aria-label="9 月 30 日已出票车票">${day.tickets.map(renderTicket).join('')}</div>` : ''}<ol class="timeline">${day.steps.map(renderStep).join('')}</ol>`;
   document.querySelector('#assessment-content').innerHTML = renderAssessment(day.assessment);
   document.querySelectorAll('.place-card').forEach((card) => card.classList.toggle('is-day-place', placeById.get(card.dataset.placeCard).days.includes(id)));
 }
@@ -163,6 +176,13 @@ document.querySelectorAll('.day-tab').forEach((tab, index) => {
     renderDay(nextTab.dataset.day);
     nextTab.focus();
   });
+});
+
+document.querySelector('[data-open-arrival-tickets]').addEventListener('click', (event) => {
+  event.preventDefault();
+  renderDay('arrival');
+  window.location.hash = 'arrival-tickets';
+  document.querySelector('#arrival-tickets').scrollIntoView({ block: 'start' });
 });
 
 function highlightPlace(id) {
