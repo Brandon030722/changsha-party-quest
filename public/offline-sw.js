@@ -1,4 +1,4 @@
-const CACHE_NAME = 'changsha-trip-offline-v3';
+const CACHE_NAME = 'changsha-trip-offline-v4';
 const OFFLINE_URL = new URL('./offline.html', self.registration.scope).href;
 
 self.addEventListener('install', (event) => {
